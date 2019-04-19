@@ -16,18 +16,22 @@ module.exports = function (config) {
 
     // list of files to exclude
     exclude: [
+      "**/*.module.js",
+      "**/*.routing.js",
+      "**/index.js"
     ],
 
 
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      'src/app/**/!(*spec).js': ['coverage']
+      'src/app/**/*.js': ['coverage']
     },
 
     coverageReporter: {
       type: 'html',
       dir: 'coverage/',
+      subdir: 'hello-world',
       includeAllSources: true
     },
 
