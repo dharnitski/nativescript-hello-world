@@ -4,6 +4,8 @@ jobs:
     working_directory: ~/my-project
     docker:
       - image: circleci/android:api-28-node
+    environment:
+      ANDROID_IMAGE: system-images;android-25;default;x86_64  
     steps:
       - checkout
       - run:
@@ -20,11 +22,30 @@ jobs:
           name: "Prepare Android"
           command: |
             tns platform add android  
+
       - run:
-          name: "Add Device"
+          name: Lists installed targets
+          command: android list target
+          environment:
+          TERM: dumb
+      - run:
+          name: Show list of system-images
+          command: sdkmanager --list --verbose | grep system-images
+      - run:
+          name: Setup Emulator
+          command: sdkmanager "${ANDROID_IMAGE}" && echo "no" | avdmanager create avd -n test -k "${ANDROID_IMAGE}"
+      - run:
+          name: Launch Emulator
           command: |
-            sdkmanager "system-images;android-25;default;x86_64" 
-            avdmanager create avd -n emulator_name -k "system-images;android-25;default;x86_64" -g "default"
+                  cd ${ANDROID_HOME}/emulator;ls
+                  export LD_LIBRARY_PATH=${ANDROID_HOME}/emulator/lib64:${ANDROID_HOME}/emulator/lib64/qt/lib
+                  emulator -avd test -no-window -noaudio -no-boot-anim -no-window -accel on
+          background: true
+      - run:
+          name: Wait emulator
+          command: |
+              circle-android wait-for-boot
+              adb shell input keyevent 82
       - run:
           name: "Run Tests"
           command: |
