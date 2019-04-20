@@ -8,7 +8,7 @@ jobs:
       - checkout
       - run:
           name: Install Nativescript
-          command: npm i -g nativescript --ignore-scripts --unsafe-perm --no-progress;
+          command: sudo npm i -g nativescript --ignore-scripts --unsafe-perm --no-progress;
       - restore_cache:
           key: my-project-{{ .Branch }}-{{ checksum "package-lock.json" }}
       - run: npm install --no-progress
