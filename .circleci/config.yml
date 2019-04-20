@@ -22,7 +22,8 @@ jobs:
             tns platform add android  
       - run:
           name: "Add Device"
-          command: | 
+          command: |
+            sdkmanager "system-images;android-25;default;x86_64" 
             avdmanager create avd -n emulator_name -k "system-images;android-25;default;x86_64" -g "default"
       - run:
           name: "Run Tests"
