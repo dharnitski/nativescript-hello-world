@@ -21,6 +21,10 @@ jobs:
           command: |
             tns platform add android  
       - run:
+          name: "Add Device"
+          command: | 
+            avdmanager create avd -n test -k "system-images;android-25;google_apis;x86"
+      - run:
           name: "Run Tests"
           command: |
             tns test android --justlaunch  
