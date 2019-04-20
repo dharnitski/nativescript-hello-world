@@ -23,7 +23,7 @@ jobs:
       - run:
           name: "Add Device"
           command: | 
-            avdmanager create avd -n test -k "system-images;android-25;google_apis;x86"
+            avdmanager create avd -n emulator_name -k "system-images;android-25;default;x86_64" -g "default"
       - run:
           name: "Run Tests"
           command: |
