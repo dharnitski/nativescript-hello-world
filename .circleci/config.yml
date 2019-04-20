@@ -33,19 +33,19 @@ jobs:
           command: sdkmanager --list --verbose | grep system-images
       - run:
           name: Setup Emulator
-          command: sdkmanager "${ANDROID_IMAGE}" && echo "no" | avdmanager create avd -n test -k "${ANDROID_IMAGE}"
-      - run:
-          name: Launch Emulator
-          command: |
-                  cd ${ANDROID_HOME}/emulator;ls
-                  export LD_LIBRARY_PATH=${ANDROID_HOME}/emulator/lib64:${ANDROID_HOME}/emulator/lib64/qt/lib
-                  emulator -avd test -no-window -noaudio -no-boot-anim -no-window -accel on
-          background: true
-      - run:
-          name: Wait emulator
-          command: |
-              circle-android wait-for-boot
-              adb shell input keyevent 82
+          command: sdkmanager "system-images;android-28;google_apis;x86_64" && echo "no" | avdmanager create avd -n test -k "system-images;android-28;google_apis;x86_64"
+      # - run:
+      #     name: Launch Emulator
+      #     command: |
+      #             cd ${ANDROID_HOME}/emulator;ls
+      #             export LD_LIBRARY_PATH=${ANDROID_HOME}/emulator/lib64:${ANDROID_HOME}/emulator/lib64/qt/lib
+      #             emulator -avd test -no-window -noaudio -no-boot-anim -no-window -accel on
+      #     background: true
+      # - run:
+      #     name: Wait emulator
+      #     command: |
+      #         circle-android wait-for-boot
+      #         adb shell input keyevent 82
       - run:
           name: "Run Tests"
           command: |
