@@ -22,36 +22,28 @@ jobs:
           name: "Prepare Android"
           command: |
             tns platform add android  
+      - run:
+          name: "Compile with bundling and obfuscation"
+          command: tns build android --bundle --env.aot --env.uglify
 
-      - run:
-          name: Lists installed targets
-          command: android list target
-          environment:
-          TERM: dumb
-      - run:
-          name: Show list of system-images
-          command: sdkmanager --list --verbose | grep system-images
-      - run:
-          name: Setup Emulator
-          command: sdkmanager "system-images;android-28;google_apis;x86_64" && echo "no" | avdmanager create avd -n test -k "system-images;android-28;google_apis;x86_64"
-      - run:
-          name: Show list of acailable devices
-          command: tns device android --available-devices
-      
-          # - run:
-      #     name: Launch Emulator
-      #     command: |
-      #             cd ${ANDROID_HOME}/emulator;ls
-      #             export LD_LIBRARY_PATH=${ANDROID_HOME}/emulator/lib64:${ANDROID_HOME}/emulator/lib64/qt/lib
-      #             emulator -avd test -no-window -noaudio -no-boot-anim -no-window -accel on
-      #     background: true
+      # running emulator (required for tests) is not supported by CircleCI
+      # https://support.circleci.com/hc/en-us/articles/360000028928-Testing-with-Android-emulator-on-CircleCI-2-0      
       # - run:
-      #     name: Wait emulator
+      #     name: Lists installed targets
+      #     command: android list target
+      #     environment:
+      #     TERM: dumb
+      # - run:
+      #     name: Show list of system-images
+      #     command: sdkmanager --list --verbose | grep system-images
+      # - run:
+      #     name: Setup Emulator
+      #     command: sdkmanager "system-images;android-28;google_apis;x86_64" && echo "no" | avdmanager create avd -n test -k "system-images;android-28;google_apis;x86_64"
+      # - run:
+      #     name: Show list of acailable devices
+      #     command: tns device android --available-devices
+      # - run:
+      #     name: "Run Tests"
       #     command: |
-      #         circle-android wait-for-boot
-      #         adb shell input keyevent 82
-      - run:
-          name: "Run Tests"
-          command: |
-            tns test android --device test --justlaunch  
+      #       tns test android --justlaunch  
          
