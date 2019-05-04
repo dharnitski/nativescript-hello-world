@@ -1,11 +1,16 @@
-var webpack = require('webpack');
-var path = require('path');
+const webpack = require('webpack');
+const { resolve } = require("path");
+
+const projectRoot = __dirname;
+const appPath = "src";
+const appFullPath = resolve(projectRoot, appPath);
 
 module.exports = {
   devtool: '#inline-source-map',
 
   entry: [
-    './test/index.spec.ts',
+    './src/app/**/*.ts',
+    './src/tests/**/*.spec.ts',
   ],
 
   output: {
@@ -20,7 +25,18 @@ module.exports = {
   ],
 
   resolve: {
-    extensions: ['.ts', '.js', '.tsx']
+    extensions: ['.ts', '.js', '.tsx'],
+    // Resolve {N} system modules from tns-core-modules
+    // modules: [
+    //   resolve(__dirname, "node_modules/tns-core-modules"),
+    //   resolve(__dirname, "node_modules"),
+    //   "node_modules/tns-core-modules",
+    //   "node_modules",
+    // ],
+    alias: {
+      '~': appFullPath
+    },
+    // symlinks: true
   },
 
   module: {
