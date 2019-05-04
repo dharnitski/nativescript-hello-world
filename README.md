@@ -11,8 +11,12 @@
 
 ## Run App in IOS
 
-   tns run ios
+    tns run ios
 
 ## Run tests in IOS
 
-   tns test ios --watch
+    tns test ios --watch
+
+## Run unit tests
+
+    karma start test-karma.config.js
